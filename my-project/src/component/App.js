@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import Navbar from './Navbar';
 import Mainpage from './Mainpage';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Home from './Home';
+import Trash from './Trash';
+import Login from './Login';
 
 class App extends Component {
   state = {
@@ -53,23 +57,36 @@ class App extends Component {
   };
   render() {
     return (
-      <AppContainer>
-        <Navbar></Navbar>
-        <Mainpage
-          todos={this.state.todos}
-          setCompleted={this.setCompleted}
-          setDeleted={this.setDeleted}
-          addTodo={this.addTodo}
-          editTodo={this.editTodo}
-        ></Mainpage>
-      </AppContainer>
+      <Router>
+        <AppContainer>
+          <Navbar></Navbar>
+          <Switch>
+            <Route exact path='/'>
+              <Home />
+            </Route>
+            <Route path='/trash'>
+              <Trash />
+            </Route>
+            <Route path='/login'>
+              <Login></Login>
+            </Route>
+          </Switch>
+        </AppContainer>
+      </Router>
+      /* <Mainpage
+       todos={this.state.todos}
+       setCompleted={this.setCompleted}
+       setDeleted={this.setDeleted}
+       addTodo={this.addTodo}
+       editTodo={this.editTodo}
+     ></Mainpage> */
     );
   }
 }
 
 const AppContainer = styled.div`
-    width: min(960px,100%);
-    margin 0 auto;
+  width: min(960px, 100%);
+  margin: 0 auto;
 `;
 
 export default App;

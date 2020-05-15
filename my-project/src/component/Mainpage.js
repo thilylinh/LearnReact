@@ -10,7 +10,8 @@ const Mainpage = (props) => {
 
   return (
     <>
-      <NewTask addTodo={props.addTodo}></NewTask>
+      <p>Main</p>
+      {/* <NewTask addTodo={props.addTodo}> </NewTask>
       <MainWrapper>
         <TaskList
           text='todo'
@@ -26,8 +27,9 @@ const Mainpage = (props) => {
           setCompleted={props.setCompleted}
           setDeleted={props.setDeleted}
           editTodo={props.editTodo}
-        ></TaskList>
-      </MainWrapper>
+        ></TaskList>{' '}
+      </MainWrapper>{' '}
+    </> */}
     </>
   );
 };

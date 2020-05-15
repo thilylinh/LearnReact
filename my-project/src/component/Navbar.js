@@ -1,13 +1,24 @@
 import styled from 'styled-components';
 import React from 'react';
+import { Switch, Route, Link } from 'react-router-dom';
+import Mainpage from './Mainpage';
+import Trash from './Trash';
+import Home from './Home';
 
 const Navbar = () => {
   return (
     <Wrapper>
       <Brand>Navbar</Brand>
       <NavList>
-        <Item trash>Trash</Item>
-        <Item>Login</Item>
+        <Item trash>
+          <Link to='/'>Home</Link>
+        </Item>
+        <Item trash>
+          <Link to='/trash'>Trash</Link>
+        </Item>
+        <Item>
+          <Link to='/login'>Login</Link>
+        </Item>
       </NavList>
     </Wrapper>
   );
@@ -22,7 +33,7 @@ const Brand = styled.a`
   line-height: 3rem;
   color: red;
   background: transparent;
-  cusor: pointer;
+  cursor: pointer;
   &:hover {
     opacity: 0.8;
   }
@@ -31,7 +42,7 @@ const Brand = styled.a`
 const NavList = styled.ul`
   list-style-type: none;
   display: flex;
-  align-item: center;
+  align-items: center;
   font-size: 1.5rem;
   line-height: 1.2rem;
   background: transparent;
