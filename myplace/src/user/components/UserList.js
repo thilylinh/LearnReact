@@ -16,7 +16,7 @@ export class UserList extends Component {
             id={user.id}
             name={user.name}
             image={user.image}
-            placeCount={user.place}
+            placeCount={user.places.length}
           />
         ))}
       </List>

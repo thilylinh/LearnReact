@@ -37,21 +37,23 @@ export default function ButtonAppBar() {
             label='menu'
           >
             <MenuIcon />
-          </PlaceIcon>
+          </PlaceIcon>{' '}
           <Typography variant='h6' className={classes.title}>
-            Place
-          </Typography>
+            Place{' '}
+          </Typography>{' '}
           <NavLinks exact to='/'>
-            All User
-          </NavLinks>
-          {login.isLogin && <NavLinks to='/1/places'> My Place </NavLinks>}
-          {login.isLogin && <NavLinks to='/place/new'> Add Place </NavLinks>}
-          {!login.isLogin && <NavLinks to='/login'> Login </NavLinks>}
+            All User{' '}
+          </NavLinks>{' '}
+          {login.isLogin && (
+            <NavLinks to={`/${login.userId}/places`}> My Place </NavLinks>
+          )}{' '}
+          {login.isLogin && <NavLinks to='/place/new'> Add Place </NavLinks>}{' '}
+          {!login.isLogin && <NavLinks to='/login'> Login </NavLinks>}{' '}
           {login.isLogin && (
             <ButtonLogout onClick={login.logout}> Log out </ButtonLogout>
-          )}
-        </Toolbar>
-      </AppBar>
+          )}{' '}
+        </Toolbar>{' '}
+      </AppBar>{' '}
     </div>
   );
 }

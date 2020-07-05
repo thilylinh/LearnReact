@@ -15,15 +15,19 @@ import UserPlace from './place/pages/UserPlace';
 import Login from './user/pages/Login';
 import SignUp from './user/pages/SignUp';
 import { LoginContext } from './shared/context/LoginContext';
+import UpdatePlace from './place/pages/UpdatePlace';
 
 const App = () => {
   const [isLogin, setLogin] = useState(false);
+  const [userID, setUserId] = useState();
 
-  const login = useCallback(() => {
+  const login = useCallback((uid) => {
     setLogin(true);
+    setUserId(uid);
   }, []);
   const logout = useCallback(() => {
     setLogin(false);
+    setUserId(null);
   }, []);
 
   let routes;
@@ -38,6 +42,9 @@ const App = () => {
         </Route>
         <Route exact path='/place/new'>
           <NewPlace />
+        </Route>
+        <Route exact path='/places/:placeId'>
+          <UpdatePlace />
         </Route>
         <Redirect to='/' />
       </Switch>
@@ -63,11 +70,10 @@ const App = () => {
   }
   return (
     <LoginContext.Provider
-      value={{ isLogin: isLogin, login: login, logout: logout }}
+      value={{ isLogin: isLogin, userId: userID, login: login, logout: logout }}
     >
       <Router>
-        <MainNavigtion />
-        {routes}
+        <MainNavigtion /> {routes}
       </Router>
     </LoginContext.Provider>
   );

@@ -44,9 +44,9 @@ const ShowMap = (props) => {
         alignItems='center'
         justify='center'
       >
-        <Typography>{title}</Typography>
+        <Title>{title}</Title>
         <GoogleApiWrapper />
-        <Button onClick={handleClose}>Close</Button>
+        <ButtonClose onClick={handleClose}>Close</ButtonClose>
       </Grid>
     </Container>
   );
@@ -54,12 +54,20 @@ const ShowMap = (props) => {
 
 export default ShowMap;
 
-// const DialogMap = styled(Dialog)({
-//   width: '35rem',
-//   margin: '0 auto',
-//   height: 'auto',
-// });
 const Container = styled(Paper)({
-  width: '960px',
+  width: '100vw',
   height: 'auto',
+});
+
+const Title = styled(Typography)({
+  marginTop: '1rem',
+  marginBottom: '1rem',
+  fontSize: '1.5rem',
+});
+
+const ButtonClose = styled(Button)({
+  marginTop: '1rem',
+  marginBottom: '0.5rem',
+  background: 'red',
+  color: 'white',
 });

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   Grid,
   Paper,
@@ -7,33 +7,88 @@ import {
   Button,
   styled,
 } from '@material-ui/core';
+import { LoginContext } from '../../shared/context/LoginContext';
+import { useHistory } from 'react-router-dom';
 
-class NewPlace extends Component {
-  render() {
-    return (
-      <Container>
-        <Grid
-          container
-          direction='column'
-          justify='center'
-          alignItems='center'
-          alignContent='center'
+const NewPlace = () => {
+  const auth = useContext(LoginContext);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [address, setAddress] = useState('');
+
+  const onChangeTitle = (e) => {
+    setTitle(e.target.value);
+  };
+
+  const onChangeDescription = (e) => {
+    setDescription(e.target.value);
+  };
+
+  const onChangeAddress = (e) => {
+    setAddress(e.target.value);
+  };
+  const history = useHistory();
+
+  const onAddPlace = async (event) => {
+    event.preventDefault();
+    try {
+      const data = await fetch('http://localhost:3001/api/places', {
+        method: 'Post',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title,
+          description,
+          address,
+          creator: auth.userId,
+        }),
+      });
+      const resData = await data.json();
+      console.log('resdata', resData);
+      console.log('title', title);
+      history.push('/');
+    } catch (err) {
+      alert('Something wrong add new place!', err);
+    }
+  };
+  return (
+    <Container>
+      <Grid
+        container
+        direction='column'
+        justify='center'
+        alignItems='center'
+        alignContent='center'
+      >
+        <Title> Add new place </Title>
+        <InputText label='Title' variant='outlined' onChange={onChangeTitle} />
+        <InputText
+          label='Address'
+          variant='outlined'
+          onChange={onChangeAddress}
+        />
+        <InputText
+          label='Description'
+          multiline
+          rowsMax={10}
+          variant='outlined'
+          onChange={onChangeDescription}
+        />
+        <ButtonAdd
+          onClick={onAddPlace}
+          onKeyPress={(event) => {
+            if (event.key === 'Enter') {
+              onAddPlace();
+            }
+          }}
         >
-          <Title>Add new place</Title>
-          <InputText label='Title' variant='outlined' />
-          <InputText label='Address' variant='outlined' />
-          <InputText
-            label='Description'
-            multiline
-            rowsMax={10}
-            variant='outlined'
-          />
-          <ButtonAdd>Add</ButtonAdd>
-        </Grid>
-      </Container>
-    );
-  }
-}
+          Add
+        </ButtonAdd>
+      </Grid>
+    </Container>
+  );
+};
 
 export default NewPlace;
 

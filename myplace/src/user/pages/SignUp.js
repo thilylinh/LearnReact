@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import {
   Grid,
   Paper,
@@ -8,8 +8,59 @@ import {
   styled,
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import Login from './Login';
+import { LoginContext } from '../../shared/context/LoginContext';
+import UploadImage from '../../shared/components/UploadImage/UploadImage';
 
 const SignUp = () => {
+  const login = useContext(LoginContext);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [image, setImage] = useState();
+  const [password, setPassword] = useState('');
+  const [isSignUp, setIsSignUp] = useState(false);
+
+  const inputName = (e) => {
+    setName(e.target.value);
+  };
+  const inputEmail = (e) => {
+    setEmail(e.target.value);
+  };
+  const inputPassword = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const onSignUp = async (event) => {
+    event.preventDefault();
+    console.log('imgae', typeof image);
+    try {
+      const data = await fetch('http://localhost:3001/api/users/signup', {
+        method: 'Post',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          name,
+          password,
+          image,
+        }),
+        // formData,
+      });
+      const responseData = await data.json();
+      login.login(responseData.user.id);
+      setIsSignUp(true);
+    } catch (err) {
+      alert('Something wrong to sign up!', err);
+    }
+  };
+
+  const hanlderInput = (img) => {
+    setImage(img);
+  };
+  if (isSignUp) {
+    return <Login />;
+  }
   return (
     <Container>
       <Grid
@@ -19,14 +70,35 @@ const SignUp = () => {
         alignItems='center'
         alignContent='center'
       >
-        <Title>Register an account</Title>
-        <InputText label='Your name' variant='outlined' />
-        <InputText label='Email' variant='outlined' type='email' />
-        <InputText label='Password' variant='outlined' type='password' />
-        <ButtonAdd>Sign up</ButtonAdd>
+        <Title> Register an account </Title>
+        <InputText label='Your name' variant='outlined' onChange={inputName} />
+        <UploadImage id='image' onInput={hanlderInput} />
+        <InputText
+          label='Email'
+          variant='outlined'
+          type='email'
+          onChange={inputEmail}
+          name='image'
+        />
+        <InputText
+          label='Password'
+          variant='outlined'
+          type='password'
+          onChange={inputPassword}
+        />
+        <ButtonAdd
+          onClick={onSignUp}
+          onKeyPress={(event) => {
+            if (event.key === 'Enter') {
+              onSignUp();
+            }
+          }}
+        >
+          Sign up
+        </ButtonAdd>
         <TitleSignup>
-          You have an accoount? Login
-          <LinkToSignup to='/login'> now</LinkToSignup>?
+          You have an accoount ? Login
+          <LinkToSignup to='/login'> now </LinkToSignup>?
         </TitleSignup>
       </Grid>
     </Container>

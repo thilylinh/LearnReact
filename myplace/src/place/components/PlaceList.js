@@ -11,12 +11,10 @@ import PlaceItem from './PlaceItem';
 import { Link } from 'react-router-dom';
 
 export class PlaceList extends Component {
-  componentDidUpdate() {
-    console.log();
-  }
   render() {
     const { items } = this.props;
-    console.log(items);
+
+    console.log('item ne', items);
     if (items.length === 0) {
       return (
         <Container>
@@ -35,12 +33,13 @@ export class PlaceList extends Component {
           <PlaceItem
             key={place.id}
             id={place.id}
-            image={place.imageUrl}
+            image={place.image}
             title={place.title}
             description={place.description}
             address={place.address}
             creatorID={place.creator}
             coordinates={place.location}
+            onDelete={this.props.onDeletePlace}
           />
         ))}
       </List>

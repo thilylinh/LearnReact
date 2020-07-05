@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Grid,
   Paper,
@@ -12,10 +12,40 @@ import { LoginContext } from '../../shared/context/LoginContext';
 
 const Login = () => {
   const login = useContext(LoginContext);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const handleLogin = (e) => {
+  const inputEmail = (e) => {
+    setEmail(e.target.value);
+  };
+  const inputPassword = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    login.login();
+    try {
+      const data = await fetch('http://localhost:3001/api/users/login', {
+        method: 'Post',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+      const responseData = await data.json();
+      if (data.ok) {
+        login.login(responseData.user.id);
+      } else {
+        alert('Login fail');
+      }
+
+      console.log('fafafafa', responseData);
+    } catch (err) {
+      alert('err');
+    }
   };
   return (
     <Container>
@@ -26,13 +56,33 @@ const Login = () => {
         alignItems='center'
         alignContent='center'
       >
-        <Title>Welcome back</Title>
-        <InputText label='Email' variant='outlined' type='email' />
-        <InputText label='Password' variant='outlined' type='password' />
-        <ButtonAdd onClick={handleLogin}>Login</ButtonAdd>
+        <Title> Welcome back </Title>
+        <InputText
+          label='Email'
+          variant='outlined'
+          type='email'
+          onChange={inputEmail}
+        />
+        <InputText
+          label='Password'
+          variant='outlined'
+          type='password'
+          onChange={inputPassword}
+        />
+        <ButtonAdd
+          onClick={handleLogin}
+          // onKeyPress={(event) => {
+          //   if (event.key === 'Enter') {
+          //     //handleLogin();
+          //     alert('dăng nhap');
+          //   }
+          // }}
+        >
+          Login
+        </ButtonAdd>
         <TitleSignup>
-          Are you have an account? Create an account
-          <LinkToSignup to='/signup'> here</LinkToSignup>?
+          Are you have an account ? Create an account
+          <LinkToSignup to='/signup'> here </LinkToSignup>?
         </TitleSignup>
       </Grid>
     </Container>

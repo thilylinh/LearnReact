@@ -54,6 +54,7 @@ class UserItem extends Component {
 export default UserItem;
 
 const Container = styled(Paper)({
+  background: '#16F1FF',
   width: '14rem',
   marginBottom: '1rem',
   '&:hover': {
